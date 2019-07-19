@@ -12,22 +12,89 @@ namespace regex_test
     {
         static void Main(string[] args)
         {
-            LegacyObjectMetadataProvider.V7 metadataProviderVersion = new LegacyObjectMetadataProvider.V7();
+            //LegacyObjectMetadataProvider.V7 metadataProviderVersion = new LegacyObjectMetadataProvider.V7();
 
-            string metadata = metadataProviderVersion.ProvideMetadata();
+            //string metadata = metadataProviderVersion.ProvideMetadata();
 
-            Console.WriteLine($"Getting product code from {metadata}");
+            //Console.WriteLine($"Getting product code from {metadata}");
 
-            string code = GetCode(metadata);
+            //string code = GetCode(metadata);
 
-            Console.WriteLine($"Recognized code as [{code}]");
+            //Console.WriteLine($"Recognized code as [{code}]");
 
-            ObjectCodeValidator validator = new ObjectCodeValidator();
+            //ObjectCodeValidator validator = new ObjectCodeValidator();
 
-            validator.AssertCodeIsValid(code, metadata);
+            //validator.AssertCodeIsValid(code, metadata);
 
-            Console.WriteLine($"Code [{code}] is valid");
+            //Console.WriteLine($"Code [{code}] is valid");
 
+            //Console.ReadKey();
+
+            int iterations = 10000;
+
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V1 metadataProviderVersion = new LegacyObjectMetadataProvider.V1();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V2 metadataProviderVersion = new LegacyObjectMetadataProvider.V2();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V3 metadataProviderVersion = new LegacyObjectMetadataProvider.V3();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V4 metadataProviderVersion = new LegacyObjectMetadataProvider.V4();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V5 metadataProviderVersion = new LegacyObjectMetadataProvider.V5();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V6 metadataProviderVersion = new LegacyObjectMetadataProvider.V6();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
+            for (int i = 1; i <= iterations; i++)
+            {
+                LegacyObjectMetadataProvider.V7 metadataProviderVersion = new LegacyObjectMetadataProvider.V7();
+                string metadata = metadataProviderVersion.ProvideMetadata();
+                string code = GetCode(metadata);
+                ObjectCodeValidator validator = new ObjectCodeValidator();
+                validator.AssertCodeIsValid(code, metadata);
+                Console.WriteLine($"Code [{code}] is valid");
+            }
             Console.ReadKey();
         }
 
@@ -38,7 +105,25 @@ namespace regex_test
             MatchCollection matches = rgx.Matches(metadata);
             if (metadata.Contains("<Code>"))
             {
-                return matches[0].ToString().Replace("_", "").Replace("~", "").Replace("<Code>", "").Replace("<", "").Replace("PL", "").Replace("BG", "").Replace("EL", "");
+                string almostSureResult = matches[0].ToString().Replace("_", "").Replace("~", "").Replace("<Code>", "").Replace("<", "");
+                int almostSureResulLenght = almostSureResult.Length;
+                bool canCut;
+                if (almostSureResulLenght >= 5)
+                {
+                    canCut = true;
+                }
+                else
+                {
+                    canCut = false;
+                }
+                if ((almostSureResult.LastIndexOf("PL")==almostSureResulLenght-2 || almostSureResult.LastIndexOf("BG") == almostSureResulLenght - 2 || almostSureResult.LastIndexOf("EL") == almostSureResulLenght - 2) && canCut)
+                {
+                    return almostSureResult.Substring(0,almostSureResulLenght-2);
+                }
+                else
+                {
+                    return almostSureResult;
+                }
             }
             else if (metadata.Contains("ItemType"))
             {
