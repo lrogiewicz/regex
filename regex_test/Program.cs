@@ -106,19 +106,10 @@ namespace regex_test
             if (metadata.Contains("<Code>"))
             {
                 string almostSureResult = matches[0].ToString().Replace("_", "").Replace("~", "").Replace("<Code>", "").Replace("<", "");
-                int almostSureResulLenght = almostSureResult.Length;
-                bool canCut;
-                if (almostSureResulLenght >= 5)
+
+                if (metadata.Contains("<Market>PL") || metadata.Contains("<Market>BG") || metadata.Contains("<Market>EL"))
                 {
-                    canCut = true;
-                }
-                else
-                {
-                    canCut = false;
-                }
-                if ((almostSureResult.LastIndexOf("PL")==almostSureResulLenght-2 || almostSureResult.LastIndexOf("BG") == almostSureResulLenght - 2 || almostSureResult.LastIndexOf("EL") == almostSureResulLenght - 2) && canCut)
-                {
-                    return almostSureResult.Substring(0,almostSureResulLenght-2);
+                    return almostSureResult.Substring(0,almostSureResult.Length-2);
                 }
                 else
                 {
